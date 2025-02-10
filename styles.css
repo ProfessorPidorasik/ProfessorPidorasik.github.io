@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffebee;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden; /* Скрываем всё, что выходит за пределы экрана */
+}
+
+.valentine-card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2; /* Чтобы карточка была поверх фоновых сердечек */
+}
+
+.heart {
+    width: 100px;
+    height: 100px;
+    background-color: #ff4d4d;
+    transform: rotate(45deg);
+    position: relative;
+    animation: heartbeat 1.5s infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    width: 100px;
+    height: 100px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before {
+    top: -50px;
+    left: 0;
+}
+
+.heart::after {
+    top: 0;
+    left: -50px;
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #ff4d4d;
+    text-align: center;
+    animation: float 3s ease-in-out infinite;
+}
+
+.hearts-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* Фоновые сердечки позади карточки */
+}
+
+.heart-background {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff4d4d;
+    transform: rotate(45deg);
+    animation: fall 5s linear infinite;
+}
+
+.heart-background::before,
+.heart-background::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: inherit;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart-background::before {
+    top: -10px;
+    left: 0;
+}
+
+.heart-background::after {
+    top: 0;
+    left: -10px;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: rotate(45deg) scale(1);
+    }
+    50% {
+        transform: rotate(45deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fall {
+    0% {
+        top: -10%;
+        opacity: 1;
+    }
+    100% {
+        top: 110%;
+        opacity: 0;
+    }
+}
