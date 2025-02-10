@@ -16,15 +16,19 @@ function createHeart() {
 // Падающие сердечки каждые 150 мс
 setInterval(createHeart, 150);
 
-// Музыка
+// Музыка и визуализация
 const music = document.getElementById('background-music');
 const musicButton = document.getElementById('music-button');
+let audioInitialized = false;
 
 musicButton.addEventListener('click', () => {
     if (music.paused) {
         music.play();
         musicButton.textContent = '🎵 Выключить музыку';
-        startAudioVisualization();  // Запуск визуализации при включении музыки
+        if (!audioInitialized) {
+            startAudioVisualization();
+            audioInitialized = true;
+        }
     } else {
         music.pause();
         musicButton.textContent = '🎵 Включить музыку';
@@ -40,7 +44,7 @@ function syncHeartbeat() {
 }
 setInterval(syncHeartbeat, 1000);
 
-// Визуализация звука (анимация "шаровой молнии")
+// Визуализация звука (более мягкая и тёмная сфера)
 function startAudioVisualization() {
     const sphere = document.querySelector('.pulse-sphere');
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -59,13 +63,13 @@ function startAudioVisualization() {
 
         // Рассчитываем среднюю громкость
         const volume = dataArray.reduce((a, b) => a + b) / bufferLength;
-        const scale = 1 + (volume / 128);  // Масштабирование сферы
+        const scale = 1 + (volume / 200);  // Более мягкое масштабирование
 
-        // Меняем цвет сферы в зависимости от громкости
-        const hue = 280 - (volume / 2);  // Цвет от фиолетового (280deg) к розовому (330deg)
+        // Цвет будет оставаться тёмно-фиолетовым с лёгким изменением оттенков
+        const hue = 260 - (volume / 10);  // Мягкий переход от тёмно-фиолетового к чуть светлее
 
-        sphere.style.transform = `scale(${scale})`;
-        sphere.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 70%), transparent)`;
+        sphere.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        sphere.style.background = `radial-gradient(circle, hsl(${hue}, 80%, 30%), transparent)`;
 
         requestAnimationFrame(animate);
     }
