@@ -72,6 +72,7 @@ body {
     background-color: #ff4d4d;
     transform: rotate(45deg);
     animation: fall 5s linear infinite;
+    opacity: 0.8;
 }
 
 .heart-background::before,
@@ -102,4 +103,23 @@ body {
 @keyframes fall {
     0% { top: -10%; opacity: 1; }
     100% { top: 110%; opacity: 0; }
+}
+
+#music-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+#music-button:hover {
+    transform: scale(1.1);
 }
