@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ffebee;
+    background: linear-gradient(135deg, #ff69b4, #8a2be2);
     font-family: 'Arial', sans-serif;
     overflow: hidden;
 }
@@ -14,9 +14,9 @@ body {
     position: relative;
     width: 300px;
     height: 400px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -88,23 +88,27 @@ body {
 .heart-background::before { top: -10px; left: 0; }
 .heart-background::after { top: 0; left: -10px; }
 
+/* Падающие сердечки */
+@keyframes fall {
+    0% { top: -10%; opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+}
+
+/* Сердцебиение */
 @keyframes heartbeat {
     0% { transform: rotate(45deg) scale(1); }
     50% { transform: rotate(45deg) scale(1.1); }
     100% { transform: rotate(45deg) scale(1); }
 }
 
+/* Сообщение плывёт */
 @keyframes float {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
 }
 
-@keyframes fall {
-    0% { top: -10%; opacity: 1; }
-    100% { top: 110%; opacity: 0; }
-}
-
+/* Кнопка музыки */
 #music-button {
     position: fixed;
     bottom: 20px;
@@ -122,4 +126,20 @@ body {
 
 #music-button:hover {
     transform: scale(1.1);
+}
+
+/* "Шаровая молния" */
+.pulse-sphere {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #8a2be2, transparent);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(40px);
+    opacity: 0.7;
+    transition: all 0.1s ease-in-out;
+    z-index: 0;
 }
