@@ -76,3 +76,24 @@ function startAudioVisualization() {
 
     animate();
 }
+
+const messageText = "Дорогая моя Сонечка, ты - самое прекрасное, что случилось в моей жизни. 💖 Каждый миг с тобой - это счастье. Пусть эта валентинка напомнит тебе, как сильно ты мне дорога!";
+const textElement = document.getElementById("animated-text");
+const cursorElement = document.querySelector(".cursor");
+
+let index = 0;
+
+function typeText() {
+    if (index < messageText.length) {
+        textElement.innerHTML += messageText[index];
+        index++;
+        setTimeout(typeText, 50);
+    } else {
+        cursorElement.style.display = "none"; // Убираем палочку после окончания анимации
+    }
+}
+
+setTimeout(() => {
+    cursorElement.style.animation = "blink 0.5s infinite";
+    typeText();
+}, 1000); // Задержка перед началом анимации
