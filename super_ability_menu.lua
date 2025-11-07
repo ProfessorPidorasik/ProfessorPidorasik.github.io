@@ -118,7 +118,7 @@ local mainFrame = Instance.new("Frame")
 mainFrame.Name = "Main"
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.Position = UDim2.fromScale(0.5, 0.5)
-mainFrame.Size = UDim2.fromOffset(640, 420)
+mainFrame.Size = UDim2.fromOffset(620, 400)
 mainFrame.BackgroundColor3 = style.panel
 mainFrame.BackgroundTransparency = finalBackgroundTransparency
 mainFrame.Visible = false
@@ -190,8 +190,8 @@ end)
 local header = Instance.new("Frame")
 header.Name = "Header"
 header.BackgroundTransparency = 1
-header.Position = UDim2.new(0, 20, 0, 20)
-header.Size = UDim2.new(1, -40, 0, 40)
+header.Position = UDim2.new(0, 20, 0, 16)
+header.Size = UDim2.new(1, -40, 0, 34)
 header.Parent = mainFrame
 
 local title = Instance.new("TextLabel")
@@ -243,8 +243,8 @@ headerUnderline.Parent = header
 local tabBar = Instance.new("Frame")
 tabBar.Name = "TabBar"
 tabBar.BackgroundTransparency = 1
-tabBar.Position = UDim2.new(0, 20, 0, 72)
-tabBar.Size = UDim2.new(1, -40, 0, 36)
+tabBar.Position = UDim2.new(0, 20, 0, 60)
+tabBar.Size = UDim2.new(1, -40, 0, 30)
 tabBar.Parent = mainFrame
 
 local tabLayout = Instance.new("UIListLayout")
@@ -263,47 +263,53 @@ local tabs = {
 
 local tabContent = {
     rage = {
-        { type = "toggle", label = "silent aim", description = "locks shots to the closest resolver target", default = true, binding = "rage.silentAim" },
-        { type = "slider", label = "silent fov", description = "limit degrees around the crosshair for target selection", min = 2, max = 35, default = 12, step = 0.5, decimals = 1, binding = "rage.silentAimFov" },
-        { type = "toggle", label = "anti aim", description = "spoofs your view angles to break enemy prediction", default = true, binding = "rage.antiAim" },
-        { type = "cycle", label = "anti mode", description = "select how yaw updates are generated", options = { "static", "spin", "jitter" }, defaultIndex = 2, binding = "rage.antiAimMode" },
-        { type = "slider", label = "yaw offset", description = "base yaw in degrees applied to the fake angle", min = -180, max = 180, default = 120, step = 1, binding = "rage.antiAimYaw" },
+        { type = "toggle", label = "silent aim", description = "locks shots to the closest resolver target", default = false, binding = "rage.silentAim" },
+        { type = "slider", label = "silent fov", description = "limit degrees around the crosshair for target selection", min = 0, max = 35, default = 0, step = 0.5, decimals = 1, binding = "rage.silentAimFov" },
+        { type = "toggle", label = "anti aim", description = "spoofs your view angles to break enemy prediction", default = false, binding = "rage.antiAim" },
+        { type = "cycle", label = "anti mode", description = "select how yaw updates are generated", options = { "static", "spin", "jitter" }, defaultIndex = 1, binding = "rage.antiAimMode" },
+        { type = "slider", label = "yaw offset", description = "base yaw in degrees applied to the fake angle", min = -180, max = 180, default = 0, step = 1, binding = "rage.antiAimYaw" },
         { type = "slider", label = "pitch offset", description = "fake pitch in degrees", min = -89, max = 89, default = 0, step = 1, binding = "rage.antiAimPitch" },
-        { type = "slider", label = "jitter range", description = "max random yaw delta for jitter mode", min = 0, max = 90, default = 35, step = 1, binding = "rage.antiAimJitter" },
-        { type = "toggle", label = "lag desync", description = "throws your networked capsule to desync the model", default = true, binding = "rage.desync" },
-        { type = "slider", label = "desync distance", description = "range of the remote capsule offset", min = 0, max = 18, default = 8, step = 0.5, decimals = 1, binding = "rage.desyncDistance" },
-        { type = "slider", label = "desync rate", description = "oscillation speed for the desync ghost", min = 2, max = 30, default = 12, step = 1, binding = "rage.desyncRate" },
+        { type = "slider", label = "jitter range", description = "max random yaw delta for jitter mode", min = 0, max = 90, default = 0, step = 1, binding = "rage.antiAimJitter" },
+        { type = "toggle", label = "lag desync", description = "throws your networked capsule to desync the model", default = false, binding = "rage.desync" },
+        { type = "slider", label = "desync distance", description = "range of the remote capsule offset", min = 0, max = 18, default = 0, step = 0.5, decimals = 1, binding = "rage.desyncDistance" },
+        { type = "slider", label = "desync rate", description = "oscillation speed for the desync ghost", min = 0, max = 30, default = 0, step = 1, binding = "rage.desyncRate" },
         { type = "toggle", label = "double tap", description = "buffers an extra shot shortly after firing", binding = "rage.doubleTap" },
     },
     legit = {
         { type = "toggle", label = "trigger bot", description = "auto fire when silent aim locks a target", binding = "legit.triggerBot" },
-        { type = "slider", label = "assist strength", description = "amount of smoothing when assisting aim", min = 0, max = 100, default = 25, binding = "legit.assistStrength" },
+        { type = "slider", label = "assist strength", description = "amount of smoothing when assisting aim", min = 0, max = 100, default = 0, binding = "legit.assistStrength" },
         { type = "cycle", label = "hit chance", description = "probability threshold for trigger bot", options = { "low", "medium", "high" }, defaultIndex = 3, binding = "legit.hitChance" },
     },
     visuals = {
-        { type = "toggle", label = "esp", description = "draw enemy info panels through walls", default = true, binding = "visuals.esp.enabled" },
+        { type = "toggle", label = "esp", description = "draw enemy info panels through walls", default = false, binding = "visuals.esp.enabled" },
         { type = "color", label = "esp color", description = "accent tint used for esp panels", default = Color3.fromRGB(255, 90, 220), binding = "visuals.esp.color" },
         { type = "color", label = "esp outline", description = "border tint for the esp boxes", default = Color3.fromRGB(48, 0, 82), binding = "visuals.esp.outline" },
-        { type = "toggle", label = "player chams", description = "project neon fill over enemy avatars", default = true, binding = "visuals.chams.enabled" },
+        { type = "toggle", label = "rainbow esp", description = "cycle esp accents through neon hues", binding = "visuals.esp.rainbow" },
+        { type = "slider", label = "rainbow speed", description = "control how fast the esp hue shifts", min = 0, max = 10, default = 0, step = 0.1, decimals = 1, binding = "visuals.esp.rainbowSpeed" },
+        { type = "toggle", label = "player chams", description = "project neon fill over enemy avatars", default = false, binding = "visuals.chams.enabled" },
         { type = "color", label = "chams fill", description = "fill tint applied to highlight", default = Color3.fromRGB(255, 120, 255), binding = "visuals.chams.fill" },
         { type = "color", label = "chams outline", description = "outline tint applied to highlight", default = Color3.fromRGB(90, 10, 130), binding = "visuals.chams.outline" },
-        { type = "slider", label = "chams fill alpha", description = "opacity of the chams fill (lower is more solid)", min = 0, max = 100, default = 35, step = 1, binding = "visuals.chams.fillAlpha" },
+        { type = "slider", label = "chams fill alpha", description = "opacity of the chams fill (lower is more solid)", min = 0, max = 100, default = 0, step = 1, binding = "visuals.chams.fillAlpha" },
         { type = "slider", label = "chams outline alpha", description = "opacity of the chams outline", min = 0, max = 100, default = 0, step = 1, binding = "visuals.chams.outlineAlpha" },
+        { type = "cycle", label = "chams material", description = "pick the material override for avatars", options = { "neon", "forcefield", "plastic" }, defaultIndex = 1, binding = "visuals.chams.material" },
+        { type = "toggle", label = "self esp", description = "highlight yourself with glass", binding = "visuals.selfEsp.enabled" },
+        { type = "color", label = "self esp color", description = "tint applied to your personal outline", default = Color3.fromRGB(200, 140, 255), binding = "visuals.selfEsp.color" },
     },
     misc = {
         { type = "toggle", label = "kill say", description = "trash talk players you eliminate", binding = "misc.killSay" },
         { type = "cycle", label = "trash talk", description = "select the flavour of chat message", options = { "fatality", "friendly", "random" }, defaultIndex = 1, binding = "misc.killSayMode" },
         { type = "toggle", label = "fake lag", description = "choke updates to desync movement", binding = "misc.fakeLag" },
-        { type = "slider", label = "fake lag choke", description = "ticks to buffer before releasing packets", min = 1, max = 16, default = 6, binding = "misc.fakeLagChoke" },
-        { type = "slider", label = "view fov", description = "override camera field of view", min = 60, max = 120, default = 85, binding = "misc.fov" },
-        { type = "toggle", label = "hit logs", description = "print resolver decisions to console", default = true, binding = "misc.hitLogs" },
+        { type = "slider", label = "fake lag choke", description = "ticks to buffer before releasing packets", min = 0, max = 16, default = 0, binding = "misc.fakeLagChoke" },
+        { type = "toggle", label = "override fov", description = "force a custom camera field of view", binding = "misc.fovEnabled" },
+        { type = "slider", label = "view fov", description = "override camera field of view", min = 0, max = 120, default = 0, binding = "misc.fov" },
+        { type = "toggle", label = "hit logs", description = "print resolver decisions to console", default = false, binding = "misc.hitLogs" },
         { type = "toggle", label = "auto peek", description = "hold C to mark position and snap back on release", binding = "misc.autoPeek" },
         { type = "toggle", label = "auto bhop", description = "spam jumps automatically while space is held", binding = "misc.bhop" },
         { type = "toggle", label = "edge jump", description = "auto hop the frame you leave ledges", binding = "misc.edgeJump" },
         { type = "toggle", label = "air stuck", description = "hold V to freeze mid air until released", binding = "misc.airStuck" },
         { type = "toggle", label = "noclip", description = "walk through geometry while active", binding = "misc.noclip" },
         { type = "toggle", label = "speed boost", description = "override walk speed with the value below", binding = "misc.speedEnabled" },
-        { type = "slider", label = "speed amount", description = "target walk speed applied when boost is active", min = 16, max = 34, default = 22, step = 0.5, decimals = 1, binding = "misc.speedAmount" },
+        { type = "slider", label = "speed amount", description = "target walk speed applied when boost is active", min = 0, max = 34, default = 0, step = 0.5, decimals = 1, binding = "misc.speedAmount" },
     },
     config = {
         { type = "button", label = "save", description = "write current setup to slot 1", onClick = function()
@@ -312,7 +318,7 @@ local tabContent = {
         { type = "button", label = "load", description = "load slot 1 configuration", onClick = function()
             print("[fatality] configuration loaded <- slot 1")
         end },
-        { type = "toggle", label = "cloud sync", description = "sync configs to fatality.win profile", default = true, binding = "config.cloud" },
+        { type = "toggle", label = "cloud sync", description = "sync configs to fatality.win profile", default = false, binding = "config.cloud" },
     },
 }
 
@@ -333,8 +339,8 @@ local container = Instance.new("Frame")
 container.Name = "Content"
 container.BackgroundColor3 = style.panelContrast
 container.BackgroundTransparency = containerHiddenTransparency
-container.Position = UDim2.new(0, 20, 0, 120)
-container.Size = UDim2.new(1, -40, 1, -140)
+container.Position = UDim2.new(0, 20, 0, 104)
+container.Size = UDim2.new(1, -40, 1, -132)
 container.Parent = mainFrame
 container.ClipsDescendants = true
 
@@ -1209,11 +1215,25 @@ local controlFactory = {
 math.randomseed(tick())
 
 local defaultFov = Camera and Camera.FieldOfView or 70
+local fovOverrideEnabled = false
+local fovOverrideValue = 0
+
+local function applyFovOverride()
+    if not Camera then
+        return
+    end
+    if fovOverrideEnabled and fovOverrideValue > 0 then
+        Camera.FieldOfView = fovOverrideValue
+    else
+        Camera.FieldOfView = defaultFov
+    end
+end
 
 Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
     Camera = Workspace.CurrentCamera
     if Camera then
         defaultFov = Camera.FieldOfView
+        applyFovOverride()
     end
 end)
 
@@ -1250,11 +1270,11 @@ local targetInfo = {
 }
 
 local silentAimEnabled = false
-local silentAimFov = 12
+local silentAimFov = 0
 local assistStrength = 0
 local triggerBotEnabled = false
 local hitChanceThreshold = 95
-local hitLogsEnabled = true
+local hitLogsEnabled = false
 local silentAimConnection
 local lastLockPlayer
 local lastTriggerTime = 0
@@ -1509,7 +1529,7 @@ registerBinding("rage.silentAim", function(value)
 end)
 
 registerBinding("rage.silentAimFov", function(value)
-    silentAimFov = math.clamp(value or 12, 1, 60)
+    silentAimFov = math.clamp(value or 0, 0, 60)
 end)
 
 registerBinding("legit.assistStrength", function(value)
@@ -1525,16 +1545,16 @@ registerBinding("legit.hitChance", function(mode)
 end)
 
 registerBinding("misc.hitLogs", function(value)
-    hitLogsEnabled = value ~= false
+    hitLogsEnabled = value and true or false
 end)
 
 -- Anti-aim -------------------------------------------------------------------
 
-local antiAimEnabled = true
-local antiAimMode = "spin"
-local antiAimYaw = 120
+local antiAimEnabled = false
+local antiAimMode = "static"
+local antiAimYaw = 0
 local antiAimPitch = 0
-local antiAimJitter = 35
+local antiAimJitter = 0
 local antiAimConnection
 local antiAimSpinClock = 0
 local antiAimJitterSign = 1
@@ -1606,7 +1626,7 @@ registerBinding("rage.antiAim", function(value)
 end)
 
 registerBinding("rage.antiAimMode", function(mode)
-    antiAimMode = tostring(mode or "spin")
+    antiAimMode = tostring(mode or "static")
     antiAimSpinClock = 0
     antiAimJitterSign = 1
 end)
@@ -1634,18 +1654,24 @@ LocalPlayer.CharacterAdded:Connect(function()
     if noclipEnabled then
         task.defer(updateMovementFeatures)
     end
+    if selfEspEnabled then
+        task.defer(updateSelfEsp)
+    end
 end)
 
 -- Desync ---------------------------------------------------------------------
 
-local desyncEnabled = true
-local desyncDistance = 8
-local desyncRate = 12
+local desyncEnabled = false
+local desyncDistance = 0
+local desyncRate = 0
 local desyncClock = 0
 local desyncConnection
 
 local function updateDesync(dt)
     if not desyncEnabled then
+        return
+    end
+    if desyncDistance <= 0 or desyncRate <= 0 then
         return
     end
     local character = LocalPlayer.Character
@@ -1691,7 +1717,7 @@ registerBinding("rage.desyncDistance", function(value)
 end)
 
 registerBinding("rage.desyncRate", function(value)
-    desyncRate = math.clamp(value or 0, 1, 60)
+    desyncRate = math.clamp(value or 0, 0, 60)
 end)
 
 -- Rage extras -----------------------------------------------------------------
@@ -1735,14 +1761,147 @@ end)
 
 local playerVisuals = {}
 local visualsConnection
-local espEnabled = true
-local chamsEnabled = true
+local espEnabled = false
+local chamsEnabled = false
 local espColor = Color3.fromRGB(255, 90, 220)
+local manualEspColor = espColor
 local espOutlineColor = Color3.fromRGB(48, 0, 82)
 local chamsFillColor = Color3.fromRGB(255, 120, 255)
 local chamsOutlineColor = Color3.fromRGB(90, 10, 130)
-local chamsFillTransparency = 0.35
+local chamsFillTransparency = 0
 local chamsOutlineTransparency = 0
+local chamsMaterialName = "neon"
+local rainbowEspEnabled = false
+local rainbowEspSpeed = 0
+local rainbowHue = 0
+local lastRainbowTick = tick()
+local selfEspEnabled = false
+local selfEspColor = Color3.fromRGB(200, 140, 255)
+local selfHighlight
+local selfMaterialCache = {}
+
+local materialOptions = {
+    neon = Enum.Material.Neon,
+    forcefield = Enum.Material.ForceField,
+    plastic = Enum.Material.SmoothPlastic,
+}
+
+local function applyMaterialOverrides(cache, character, materialEnum, transparencyResolver)
+    if not cache or not character or not materialEnum then
+        return
+    end
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            local record = cache[part]
+            if not record then
+                record = {
+                    material = part.Material,
+                    transparency = part.Transparency,
+                }
+                cache[part] = record
+            end
+            part.Material = materialEnum
+            if transparencyResolver then
+                local override = transparencyResolver(part.Transparency)
+                if override ~= nil then
+                    part.Transparency = math.clamp(override, 0, 1)
+                end
+            end
+        end
+    end
+end
+
+local function restoreMaterialOverrides(cache)
+    if not cache then
+        return
+    end
+    for part, record in pairs(cache) do
+        if part and part.Parent and record then
+            part.Material = record.material
+            part.Transparency = record.transparency
+        end
+        cache[part] = nil
+    end
+end
+
+local function updateSelfHighlight()
+    if not selfHighlight then
+        return
+    end
+    selfHighlight.FillColor = selfEspColor
+    selfHighlight.OutlineColor = selfEspColor:Lerp(Color3.new(1, 1, 1), 0.4)
+end
+
+local function restoreSelfMaterials()
+    restoreMaterialOverrides(selfMaterialCache)
+end
+
+local function applySelfMaterials(character)
+    selfMaterialCache = selfMaterialCache or {}
+    applyMaterialOverrides(selfMaterialCache, character, Enum.Material.Glass, function()
+        return 0.35
+    end)
+end
+
+local function updateSelfEsp()
+    if not selfEspEnabled then
+        if selfHighlight then
+            selfHighlight.Enabled = false
+            selfHighlight.Adornee = nil
+        end
+        restoreSelfMaterials()
+        return
+    end
+
+    local character = LocalPlayer and LocalPlayer.Character
+    if not character then
+        return
+    end
+
+    if not selfHighlight then
+        selfHighlight = Instance.new("Highlight")
+        selfHighlight.Name = "FatalitySelfESP"
+        selfHighlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        selfHighlight.FillTransparency = 0.65
+        selfHighlight.OutlineTransparency = 0.15
+        selfHighlight.Parent = parentGui
+    elseif selfHighlight.Parent ~= parentGui then
+        selfHighlight.Parent = parentGui
+    end
+
+    selfHighlight.Adornee = character
+    selfHighlight.Enabled = true
+    updateSelfHighlight()
+    applySelfMaterials(character)
+end
+
+local function applyEntryMaterials(entry, character)
+    if not chamsEnabled then
+        return
+    end
+    local materialEnum = materialOptions[chamsMaterialName]
+    if not materialEnum then
+        return
+    end
+    entry.materialCache = entry.materialCache or {}
+    applyMaterialOverrides(entry.materialCache, character, materialEnum, function(current)
+        if chamsMaterialName == "forcefield" then
+            return math.clamp(chamsFillTransparency + 0.25, 0, 1)
+        elseif chamsMaterialName == "neon" then
+            return math.min(current, 0.25)
+        end
+        return current
+    end)
+    entry.materialToken = chamsMaterialName
+end
+
+local function restoreEntryMaterials(entry)
+    if entry.materialCache then
+        restoreMaterialOverrides(entry.materialCache)
+        entry.materialCache = nil
+    end
+    entry.materialToken = nil
+end
 
 local function destroyVisualEntry(player)
     local entry = playerVisuals[player]
@@ -1755,6 +1914,7 @@ local function destroyVisualEntry(player)
     if entry.highlight then
         entry.highlight:Destroy()
     end
+    restoreEntryMaterials(entry)
     if entry.connections then
         for _, conn in ipairs(entry.connections) do
             conn:Disconnect()
@@ -1792,6 +1952,31 @@ local function updateHighlightColors(entry)
     end
 end
 
+local function stepRainbowEsp()
+    if not rainbowEspEnabled or rainbowEspSpeed <= 0 then
+        lastRainbowTick = tick()
+        if espColor ~= manualEspColor then
+            espColor = manualEspColor
+            for _, entry in pairs(playerVisuals) do
+                updateEspColors(entry)
+            end
+        end
+        return
+    end
+
+    local now = tick()
+    local dt = now - lastRainbowTick
+    lastRainbowTick = now
+    rainbowHue = (rainbowHue + dt * math.max(rainbowEspSpeed, 0)) % 1
+    local newColor = Color3.fromHSV(rainbowHue, 0.85, 1)
+    if math.abs(newColor.R - espColor.R) > 0.001 or math.abs(newColor.G - espColor.G) > 0.001 or math.abs(newColor.B - espColor.B) > 0.001 then
+        espColor = newColor
+        for _, entry in pairs(playerVisuals) do
+            updateEspColors(entry)
+        end
+    end
+end
+
 local function ensureEsp(entry, player)
     if not espEnabled then
         if entry.esp then
@@ -1812,8 +1997,8 @@ local function ensureEsp(entry, player)
         billboard = Instance.new("BillboardGui")
         billboard.Name = "FatalityESP"
         billboard.AlwaysOnTop = true
-        billboard.Size = UDim2.fromOffset(220, 72)
-        billboard.StudsOffset = Vector3.new(0, 2.4, 0)
+        billboard.Size = UDim2.fromOffset(190, 64)
+        billboard.StudsOffset = Vector3.new(0, 2.2, 0)
         billboard.MaxDistance = 3000
         billboard.Parent = head
         billboard.Adornee = head
@@ -1970,9 +2155,13 @@ local function ensureHighlight(entry, player)
     elseif highlight.Parent ~= parentGui then
         highlight.Parent = parentGui
     end
+    if entry.materialToken and entry.materialToken ~= chamsMaterialName then
+        restoreEntryMaterials(entry)
+    end
     highlight.Adornee = character
     highlight.Enabled = true
     updateHighlightColors(entry)
+    applyEntryMaterials(entry, character)
 end
 
 local function refreshVisualEntry(player, entry)
@@ -1999,8 +2188,11 @@ local function refreshVisualEntry(player, entry)
 
     if chamsEnabled then
         ensureHighlight(entry, player)
-    elseif entry.highlight then
-        entry.highlight.Enabled = false
+    else
+        if entry.highlight then
+            entry.highlight.Enabled = false
+        end
+        restoreEntryMaterials(entry)
     end
 
     if entry.esp then
@@ -2012,6 +2204,7 @@ local function refreshVisualEntry(player, entry)
 end
 
 local function updateVisuals()
+    stepRainbowEsp()
     for player, entry in pairs(playerVisuals) do
         if not player.Parent then
             destroyVisualEntry(player)
@@ -2050,6 +2243,7 @@ local function attachCharacter(entry, player, character)
         entry.highlight:Destroy()
         entry.highlight = nil
     end
+    restoreEntryMaterials(entry)
     refreshVisualEntry(player, entry)
 end
 
@@ -2075,6 +2269,7 @@ local function trackPlayer(player)
             entry.highlight.Enabled = false
             entry.highlight.Adornee = nil
         end
+        restoreEntryMaterials(entry)
     end)
     table.insert(entry.connections, removingConn)
 
@@ -2101,6 +2296,18 @@ end)
 
 visualsConnection = RunService.RenderStepped:Connect(updateVisuals)
 
+local function reapplyChamsMaterials()
+    if not chamsEnabled then
+        return
+    end
+    for player, entry in pairs(playerVisuals) do
+        local character = player.Character
+        if character then
+            applyEntryMaterials(entry, character)
+        end
+    end
+end
+
 registerBinding("visuals.esp.enabled", function(value)
     espEnabled = value and true or false
     for player, entry in pairs(playerVisuals) do
@@ -2117,9 +2324,12 @@ end)
 
 registerBinding("visuals.esp.color", function(color)
     if typeof(color) == "Color3" then
-        espColor = color
-        for _, entry in pairs(playerVisuals) do
-            updateEspColors(entry)
+        manualEspColor = color
+        if not rainbowEspEnabled then
+            espColor = color
+            for _, entry in pairs(playerVisuals) do
+                updateEspColors(entry)
+            end
         end
     end
 end)
@@ -2133,12 +2343,24 @@ registerBinding("visuals.esp.outline", function(color)
     end
 end)
 
+registerBinding("visuals.esp.rainbow", function(value)
+    rainbowEspEnabled = value and true or false
+    lastRainbowTick = tick()
+    stepRainbowEsp()
+end)
+
+registerBinding("visuals.esp.rainbowSpeed", function(value)
+    rainbowEspSpeed = math.max(tonumber(value) or 0, 0)
+    lastRainbowTick = tick()
+end)
+
 registerBinding("visuals.chams.fill", function(color)
     if typeof(color) == "Color3" then
         chamsFillColor = color
         for _, entry in pairs(playerVisuals) do
             updateHighlightColors(entry)
         end
+        reapplyChamsMaterials()
     end
 end)
 
@@ -2152,16 +2374,46 @@ registerBinding("visuals.chams.outline", function(color)
 end)
 
 registerBinding("visuals.chams.fillAlpha", function(value)
-    chamsFillTransparency = math.clamp((value or 35) / 100, 0, 1)
+    chamsFillTransparency = math.clamp((value or 0) / 100, 0, 1)
     for _, entry in pairs(playerVisuals) do
         updateHighlightColors(entry)
     end
+    reapplyChamsMaterials()
 end)
 
 registerBinding("visuals.chams.outlineAlpha", function(value)
     chamsOutlineTransparency = math.clamp((value or 0) / 100, 0, 1)
     for _, entry in pairs(playerVisuals) do
         updateHighlightColors(entry)
+    end
+end)
+
+registerBinding("visuals.chams.material", function(option)
+    local key = tostring(option or "neon"):lower()
+    if not materialOptions[key] then
+        key = "neon"
+    end
+    chamsMaterialName = key
+    for player, entry in pairs(playerVisuals) do
+        restoreEntryMaterials(entry)
+        if chamsEnabled then
+            refreshVisualEntry(player, entry)
+        end
+    end
+end)
+
+registerBinding("visuals.selfEsp.enabled", function(value)
+    selfEspEnabled = value and true or false
+    updateSelfEsp()
+end)
+
+registerBinding("visuals.selfEsp.color", function(color)
+    if typeof(color) == "Color3" then
+        selfEspColor = color
+        updateSelfHighlight()
+        if selfEspEnabled then
+            updateSelfEsp()
+        end
     end
 end)
 
@@ -2283,7 +2535,7 @@ registerBinding("misc.killSayMode", function(mode)
 end)
 
 local fakeLagEnabled = false
-local fakeLagChoke = 6
+local fakeLagChoke = 0
 local fakeLagConnection
 local fakeLagCounter = 0
 local storedVelocity = Vector3.zero
@@ -2301,6 +2553,10 @@ local function updateFakeLag()
         return
     end
     fakeLagCounter = fakeLagCounter + 1
+    if fakeLagChoke <= 0 then
+        fakeLagCounter = 0
+        return
+    end
     if fakeLagCounter >= fakeLagChoke then
         fakeLagCounter = 0
         storedVelocity = root.AssemblyLinearVelocity
@@ -2326,13 +2582,17 @@ registerBinding("misc.fakeLag", function(value)
 end)
 
 registerBinding("misc.fakeLagChoke", function(value)
-    fakeLagChoke = math.clamp(math.floor(value or 1), 1, 30)
+    fakeLagChoke = math.clamp(math.floor(value or 0), 0, 30)
+end)
+
+registerBinding("misc.fovEnabled", function(value)
+    fovOverrideEnabled = value and true or false
+    applyFovOverride()
 end)
 
 registerBinding("misc.fov", function(value)
-    if Camera then
-        Camera.FieldOfView = value or defaultFov
-    end
+    fovOverrideValue = math.clamp(tonumber(value) or 0, 0, 120)
+    applyFovOverride()
 end)
 
 local autoPeekEnabled = false
@@ -2420,7 +2680,7 @@ local bunnyHopEnabled = false
 local edgeJumpEnabled = false
 local noclipEnabled = false
 local speedEnabled = false
-local speedAmount = 22
+local speedAmount = 0
 local storedWalkSpeed
 local movementConnection
 local lastBhopTime = 0
@@ -2451,8 +2711,12 @@ local function updateMovementFeatures()
         if not storedWalkSpeed then
             storedWalkSpeed = humanoid.WalkSpeed
         end
-        if math.abs((humanoid.WalkSpeed or 0) - speedAmount) > 0.05 then
-            humanoid.WalkSpeed = speedAmount
+        local targetSpeed = speedAmount
+        if targetSpeed <= 0 then
+            targetSpeed = storedWalkSpeed or humanoid.WalkSpeed
+        end
+        if math.abs((humanoid.WalkSpeed or 0) - targetSpeed) > 0.05 then
+            humanoid.WalkSpeed = targetSpeed
         end
     elseif storedWalkSpeed then
         if math.abs((humanoid.WalkSpeed or 0) - storedWalkSpeed) > 0.05 then
@@ -2527,7 +2791,7 @@ registerBinding("misc.speedEnabled", function(value)
 end)
 
 registerBinding("misc.speedAmount", function(value)
-    speedAmount = math.clamp(value or 22, 16, 120)
+    speedAmount = math.clamp(tonumber(value) or 0, 0, 120)
     if speedEnabled then
         updateMovementFeatures()
     end
@@ -2600,6 +2864,11 @@ LocalPlayer.CharacterRemoving:Connect(function()
     end
     if speedEnabled then
         storedWalkSpeed = nil
+    end
+    restoreSelfMaterials()
+    if selfHighlight then
+        selfHighlight.Enabled = false
+        selfHighlight.Adornee = nil
     end
 end)
 
