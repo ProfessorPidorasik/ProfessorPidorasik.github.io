@@ -9,7 +9,19 @@ local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local parentGui = (gethui and gethui()) or game:GetService("CoreGui")
+local parentGui = game:GetService("CoreGui")
+do
+    local hiddenUiProviders = { gethui, get_hidden_gui, get_hui }
+    for _, provider in ipairs(hiddenUiProviders) do
+        if typeof(provider) == "function" then
+            local ok, gui = pcall(provider)
+            if ok and gui then
+                parentGui = gui
+                break
+            end
+        end
+    end
+end
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 local mouse = LocalPlayer and LocalPlayer:GetMouse()
@@ -77,8 +89,12 @@ screenGui.ResetOnSpawn = false
 screenGui.IgnoreGuiInset = true
 screenGui.DisplayOrder = 999999
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-if syn and syn.protect_gui then
-    pcall(syn.protect_gui, screenGui)
+local synTable = syn
+if typeof(synTable) == "table" then
+    local protect = rawget(synTable, "protect_gui")
+    if typeof(protect) == "function" then
+        pcall(protect, screenGui)
+    end
 end
 screenGui.Parent = parentGui
 
@@ -1282,17 +1298,21 @@ local function simulateClick(positionOverride, cameraCFrame)
         cameraFrame = cameraFrame or CFrame.new()
     end
 
-    if mouse1press and mouse1release then
-        local pressed = pcall(mouse1press)
-        task.delay(0.02, function()
-            pcall(mouse1release)
-        end)
-        return pressed
+    if typeof(mouse1press) == "function" and typeof(mouse1release) == "function" then
+        local ok, pressed = pcall(mouse1press)
+        if ok then
+            task.delay(0.02, function()
+                if typeof(mouse1release) == "function" then
+                    pcall(mouse1release)
+                end
+            end)
+            return pressed ~= false
+        end
     end
 
-    if mouse1click then
-        local success = pcall(mouse1click)
-        if success then
+    if typeof(mouse1click) == "function" then
+        local ok = pcall(mouse1click)
+        if ok then
             return true
         end
     end
