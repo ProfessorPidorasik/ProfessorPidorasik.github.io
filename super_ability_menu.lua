@@ -3043,139 +3043,140 @@ UserInputService.TouchEnded:Connect(function()
     endInteraction()
 end)
 
--- Loading overlay
-local loadingOverlay = Instance.new("Frame")
-loadingOverlay.Name = "Loading"
-loadingOverlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-loadingOverlay.BackgroundTransparency = 0.4
-loadingOverlay.Size = UDim2.fromScale(1, 1)
-loadingOverlay.Parent = rootFrame
+local tempInstance
+local loading = {}
 
-local loadingContainer = Instance.new("Frame")
-loadingContainer.Name = "LoadingContainer"
-loadingContainer.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingContainer.Position = UDim2.fromScale(0.5, 0.5)
-loadingContainer.Size = UDim2.fromOffset(260, 120)
-loadingContainer.BackgroundColor3 = style.panelContrast
-loadingContainer.BackgroundTransparency = 0.05
-loadingContainer.Parent = loadingOverlay
+loading.overlay = Instance.new("Frame")
+loading.overlay.Name = "Loading"
+loading.overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+loading.overlay.BackgroundTransparency = 0.4
+loading.overlay.Size = UDim2.fromScale(1, 1)
+loading.overlay.Parent = rootFrame
 
-local loadingCorner = Instance.new("UICorner")
-loadingCorner.CornerRadius = UDim.new(0, 8)
-loadingCorner.Parent = loadingContainer
+loading.container = Instance.new("Frame")
+loading.container.Name = "LoadingContainer"
+loading.container.AnchorPoint = Vector2.new(0.5, 0.5)
+loading.container.Position = UDim2.fromScale(0.5, 0.5)
+loading.container.Size = UDim2.fromOffset(260, 120)
+loading.container.BackgroundColor3 = style.panelContrast
+loading.container.BackgroundTransparency = 0.05
+loading.container.Parent = loading.overlay
 
-local loadingGradient = Instance.new("UIGradient")
-loadingGradient.Color = ColorSequence.new({
+tempInstance = Instance.new("UICorner")
+tempInstance.CornerRadius = UDim.new(0, 8)
+tempInstance.Parent = loading.container
+
+tempInstance = Instance.new("UIGradient")
+tempInstance.Color = ColorSequence.new({
     ColorSequenceKeypoint.new(0, style.panelContrast),
     ColorSequenceKeypoint.new(0.5, Color3.fromRGB(40, 12, 58)),
     ColorSequenceKeypoint.new(1, style.panelContrast)
 })
-loadingGradient.Rotation = -45
-loadingGradient.Parent = loadingContainer
+tempInstance.Rotation = -45
+tempInstance.Parent = loading.container
 
-local loadingStroke = Instance.new("UIStroke")
-loadingStroke.Color = style.stroke
-loadingStroke.Thickness = 1
-loadingStroke.Parent = loadingContainer
+loading.stroke = Instance.new("UIStroke")
+loading.stroke.Color = style.stroke
+loading.stroke.Thickness = 1
+loading.stroke.Parent = loading.container
 
-local loadingLabel = Instance.new("TextLabel")
-loadingLabel.BackgroundTransparency = 1
-loadingLabel.Size = UDim2.new(1, -40, 0, 24)
-loadingLabel.Position = UDim2.new(0, 20, 0, 20)
-loadingLabel.TextXAlignment = Enum.TextXAlignment.Left
-loadingLabel.Font = Enum.Font.GothamSemibold
-loadingLabel.TextSize = 16
-loadingLabel.TextColor3 = style.textBright
-loadingLabel.Text = "loading menu"
-loadingLabel.Parent = loadingContainer
+loading.label = Instance.new("TextLabel")
+loading.label.BackgroundTransparency = 1
+loading.label.Size = UDim2.new(1, -40, 0, 24)
+loading.label.Position = UDim2.new(0, 20, 0, 20)
+loading.label.TextXAlignment = Enum.TextXAlignment.Left
+loading.label.Font = Enum.Font.GothamSemibold
+loading.label.TextSize = 16
+loading.label.TextColor3 = style.textBright
+loading.label.Text = "loading menu"
+loading.label.Parent = loading.container
 
-local progressOuter = Instance.new("Frame")
-progressOuter.Name = "ProgressOuter"
-progressOuter.BackgroundColor3 = style.buttonIdle
-progressOuter.BorderSizePixel = 0
-progressOuter.Position = UDim2.new(0, 20, 0, 70)
-progressOuter.Size = UDim2.new(1, -40, 0, 8)
-progressOuter.Parent = loadingContainer
+loading.progressOuter = Instance.new("Frame")
+loading.progressOuter.Name = "ProgressOuter"
+loading.progressOuter.BackgroundColor3 = style.buttonIdle
+loading.progressOuter.BorderSizePixel = 0
+loading.progressOuter.Position = UDim2.new(0, 20, 0, 70)
+loading.progressOuter.Size = UDim2.new(1, -40, 0, 8)
+loading.progressOuter.Parent = loading.container
 
-local progressCorner = Instance.new("UICorner")
-progressCorner.CornerRadius = UDim.new(1, 0)
-progressCorner.Parent = progressOuter
+tempInstance = Instance.new("UICorner")
+tempInstance.CornerRadius = UDim.new(1, 0)
+tempInstance.Parent = loading.progressOuter
 
-local progressStroke = Instance.new("UIStroke")
-progressStroke.Color = style.stroke
-progressStroke.Thickness = 1
-progressStroke.Parent = progressOuter
+loading.progressStroke = Instance.new("UIStroke")
+loading.progressStroke.Color = style.stroke
+loading.progressStroke.Thickness = 1
+loading.progressStroke.Parent = loading.progressOuter
 
-local progressFill = Instance.new("Frame")
-progressFill.Name = "ProgressFill"
-progressFill.BackgroundColor3 = style.accent
-progressFill.BorderSizePixel = 0
-progressFill.Size = UDim2.new(0, 0, 1, 0)
-progressFill.Parent = progressOuter
+loading.progressFill = Instance.new("Frame")
+loading.progressFill.Name = "ProgressFill"
+loading.progressFill.BackgroundColor3 = style.accent
+loading.progressFill.BorderSizePixel = 0
+loading.progressFill.Size = UDim2.new(0, 0, 1, 0)
+loading.progressFill.Parent = loading.progressOuter
 
-local progressFillCorner = Instance.new("UICorner")
-progressFillCorner.CornerRadius = UDim.new(1, 0)
-progressFillCorner.Parent = progressFill
+tempInstance = Instance.new("UICorner")
+tempInstance.CornerRadius = UDim.new(1, 0)
+tempInstance.Parent = loading.progressFill
 
-local spinner = Instance.new("ImageLabel")
-spinner.Name = "Spinner"
-spinner.BackgroundTransparency = 1
-spinner.AnchorPoint = Vector2.new(1, 0)
-spinner.Position = UDim2.new(1, 0, 0, 18)
-spinner.Size = UDim2.fromOffset(18, 18)
-spinner.Image = "rbxassetid://11255175019"
-spinner.ImageColor3 = style.accentAlt
-spinner.Parent = loadingLabel
+loading.spinner = Instance.new("ImageLabel")
+loading.spinner.Name = "Spinner"
+loading.spinner.BackgroundTransparency = 1
+loading.spinner.AnchorPoint = Vector2.new(1, 0)
+loading.spinner.Position = UDim2.new(1, 0, 0, 18)
+loading.spinner.Size = UDim2.fromOffset(18, 18)
+loading.spinner.Image = "rbxassetid://11255175019"
+loading.spinner.ImageColor3 = style.accentAlt
+loading.spinner.Parent = loading.label
 
-local progressTween = TweenService:Create(progressFill, TweenInfo.new(1.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+loading.progressTween = TweenService:Create(loading.progressFill, TweenInfo.new(1.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
     Size = UDim2.new(1, 0, 1, 0)
 })
-progressTween:Play()
+loading.progressTween:Play()
 
-local spinnerConnection
-spinnerConnection = RunService.Heartbeat:Connect(function(step)
-    spinner.Rotation = (spinner.Rotation + step * 180) % 360
+loading.spinnerConnection = RunService.Heartbeat:Connect(function(step)
+    loading.spinner.Rotation = (loading.spinner.Rotation + step * 180) % 360
 end)
 
 local function revealMenu()
-    loadingOverlay.Active = false
-    TweenService:Create(loadingOverlay, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    loading.overlay.Active = false
+    TweenService:Create(loading.overlay, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         BackgroundTransparency = 1
     }):Play()
-    TweenService:Create(loadingContainer, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.container, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         BackgroundTransparency = 1
     }):Play()
-    TweenService:Create(loadingStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.stroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         Transparency = 1
     }):Play()
-    TweenService:Create(loadingLabel, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.label, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         TextTransparency = 1
     }):Play()
-    TweenService:Create(progressOuter, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.progressOuter, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         BackgroundTransparency = 1
     }):Play()
-    TweenService:Create(progressFill, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.progressFill, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         BackgroundTransparency = 1
     }):Play()
-    TweenService:Create(progressStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.progressStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         Transparency = 1
     }):Play()
-    TweenService:Create(spinner, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    TweenService:Create(loading.spinner, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         ImageTransparency = 1
     }):Play()
 
     task.delay(0.25, function()
-        if spinnerConnection then
-            spinnerConnection:Disconnect()
+        if loading.spinnerConnection then
+            loading.spinnerConnection:Disconnect()
         end
-        loadingOverlay:Destroy()
+        loading.overlay:Destroy()
     end)
 
     showMenu(false)
     hasLoaded = true
 end
 
-progressTween.Completed:Once(revealMenu)
+loading.progressTween.Completed:Once(revealMenu)
 
 -- Allow toggle key (Insert) to hide/show menu after load
 local toggleKey = Enum.KeyCode.Insert
